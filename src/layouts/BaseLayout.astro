@@ -87,7 +87,8 @@ const { title, description = 'OSAU Wiki - GoodGame Empire guides and strategies'
   }
 </style>
 
-<script>
+<script is:inline>
+  // Scroll to top button
   const scrollBtn = document.getElementById('scroll-top');
 
   window.addEventListener('scroll', () => {
@@ -101,4 +102,36 @@ const { title, description = 'OSAU Wiki - GoodGame Empire guides and strategies'
   scrollBtn?.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
+
+  // Card fade-in animation on scroll
+  function initCardAnimations() {
+    const cards = document.querySelectorAll('.card');
+
+    if (cards.length === 0) return;
+
+    const cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const card = entry.target;
+          const allCards = Array.from(document.querySelectorAll('.card'));
+          const delay = allCards.indexOf(card) % 3 * 100;
+          setTimeout(() => {
+            card.classList.add('visible');
+          }, delay);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '50px 0px -50px 0px'
+    });
+
+    cards.forEach(card => cardObserver.observe(card));
+  }
+
+  // Run when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCardAnimations);
+  } else {
+    initCardAnimations();
+  }
 </script>

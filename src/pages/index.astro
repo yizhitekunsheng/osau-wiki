@@ -1,7 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Card from '../components/Card.astro';
 import { getCollection } from 'astro:content';
+import heroBg from '../assets/images/ggs/winter-2023.jpg';
+import contentBg from '../assets/images/ggs/empire-banner.jpg';
 
 const guides = await getCollection('guides');
 const recentGuides = guides
@@ -11,7 +14,7 @@ const recentGuides = guides
 
 <BaseLayout title="Home">
   <section class="hero">
-    <img src="/images/ggs/winter-2023.jpg" alt="" class="hero-bg" />
+    <Image src={heroBg} alt="" class="hero-bg" />
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1>OSAU Wiki</h1>
@@ -23,7 +26,7 @@ const recentGuides = guides
   </section>
 
   <section class="content-section">
-    <img src="/images/ggs/empire-banner.jpg" alt="" class="content-bg" />
+    <Image src={contentBg} alt="" class="content-bg" />
     <div class="content-overlay"></div>
     <div class="container section">
       <div class="section-header">

@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Card from '../../components/Card.astro';
 import { getCollection } from 'astro:content';
+import contentBg from '../../assets/images/ggs/empire-banner.jpg';
 
 const guides = await getCollection('guides');
 const sortedGuides = guides.sort(
@@ -13,7 +15,7 @@ const categories = ['all', ...new Set(guides.map((g) => g.data.category))];
 
 <BaseLayout title="Guides" description="Browse all GoodGame Empire guides and strategies">
   <section class="content-section">
-    <img src="/images/ggs/empire-banner.jpg" alt="" class="content-bg" />
+    <Image src={contentBg} alt="" class="content-bg" />
     <div class="content-overlay"></div>
     <div class="container content-inner">
       <header class="page-header">

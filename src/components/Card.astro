@@ -1,10 +1,13 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
 interface Props {
   title: string;
   description: string;
   href: string;
   category: string;
-  image?: string;
+  image?: ImageMetadata;
 }
 
 const { title, description, href, category, image } = Astro.props;
@@ -13,7 +16,7 @@ const { title, description, href, category, image } = Astro.props;
 <a href={href} class="card">
   {image && (
     <div class="card-image">
-      <img src={image} alt="" />
+      <Image src={image} alt="" width={600} height={338} />
     </div>
   )}
   <div class="card-content">
@@ -29,14 +32,26 @@ const { title, description, href, category, image } = Astro.props;
     background: var(--color-bg-card);
     border-radius: var(--radius);
     overflow: hidden;
-    transition: transform var(--transition), box-shadow var(--transition);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow var(--transition),
+                opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     color: var(--color-text);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     border: 1px solid var(--color-border);
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .card.visible:hover {
+    transform: translateY(-4px);
   }
 
   .card:hover {
-    transform: translateY(-4px);
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
     color: var(--color-text);
   }
@@ -60,6 +75,33 @@ const { title, description, href, category, image } = Astro.props;
 
   .card-content {
     padding: 1.25rem;
+  }
+
+  /* Text elements start hidden and fade in after card */
+  .card .badge,
+  .card-title,
+  .card-description {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  .card.visible .badge {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.15s;
+  }
+
+  .card.visible .card-title {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.25s;
+  }
+
+  .card.visible .card-description {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.35s;
   }
 
   .card-title {
