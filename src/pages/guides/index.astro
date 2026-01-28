@@ -13,7 +13,7 @@ const categories = ['all', ...new Set(guides.map((g) => g.data.category))];
 
 <BaseLayout title="Guides" description="Browse all GoodGame Empire guides and strategies">
   <section class="content-section">
-    <img src="/osau-wiki/images/ggs/empire-banner.jpg" alt="" class="content-bg" />
+    <img src="/images/ggs/empire-banner.jpg" alt="" class="content-bg" />
     <div class="content-overlay"></div>
     <div class="container content-inner">
       <header class="page-header">
@@ -35,7 +35,7 @@ const categories = ['all', ...new Set(guides.map((g) => g.data.category))];
           <Card
             title={guide.data.title}
             description={guide.data.description}
-            href={`/osau-wiki/guides/${guide.id}/`}
+            href={`/guides/${guide.id}/`}
             category={guide.data.category}
             image={guide.data.image}
           />

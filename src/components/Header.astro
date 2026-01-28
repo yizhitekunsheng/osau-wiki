@@ -1,13 +1,13 @@
 ---
 const navItems = [
-  { label: 'Home', href: '/osau-wiki/' },
-  { label: 'Guides', href: '/osau-wiki/guides/' },
+  { label: 'Home', href: '/' },
+  { label: 'Guides', href: '/guides/' },
 ];
 ---
 
 <header class="header">
   <div class="container header-inner">
-    <a href="/osau-wiki/" class="logo">OSAU Wiki</a>
+    <a href="/" class="logo">OSAU Wiki</a>
     <nav class="nav">
       {navItems.map((item) => (
         <a href={item.href} class="nav-link">{item.label}</a>

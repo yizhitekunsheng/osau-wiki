@@ -11,7 +11,7 @@ const recentGuides = guides
 
 <BaseLayout title="Home">
   <section class="hero">
-    <img src="/osau-wiki/images/ggs/winter-2023.jpg" alt="" class="hero-bg" />
+    <img src="/images/ggs/winter-2023.jpg" alt="" class="hero-bg" />
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1>OSAU Wiki</h1>
@@ -23,19 +23,19 @@ const recentGuides = guides
   </section>
 
   <section class="content-section">
-    <img src="/osau-wiki/images/ggs/empire-banner.jpg" alt="" class="content-bg" />
+    <img src="/images/ggs/empire-banner.jpg" alt="" class="content-bg" />
     <div class="content-overlay"></div>
     <div class="container section">
       <div class="section-header">
         <h2>Latest Guides</h2>
-        <a href="/osau-wiki/guides/" class="view-all">View all guides &rarr;</a>
+        <a href="/guides/" class="view-all">View all guides &rarr;</a>
       </div>
       <div class="card-grid">
         {recentGuides.map((guide) => (
           <Card
             title={guide.data.title}
             description={guide.data.description}
-            href={`/osau-wiki/guides/${guide.id}/`}
+            href={`/guides/${guide.id}/`}
             category={guide.data.category}
             image={guide.data.image}
           />
