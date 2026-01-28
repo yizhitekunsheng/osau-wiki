@@ -13,36 +13,43 @@ const sortedGuides = guides.sort(
 const categories = ['all', ...new Set(guides.map((g) => g.data.category))];
 ---
 
-<BaseLayout title="Guides" description="Browse all GoodGame Empire guides and strategies">
+<BaseLayout
+  title="Guides"
+  description="Browse all GoodGame Empire guides and strategies"
+>
   <section class="content-section">
     <Image src={contentBg} alt="" class="content-bg" />
     <div class="content-overlay"></div>
     <div class="container content-inner">
       <header class="page-header">
-      <h1>Guides</h1>
-      <p>Strategy guides, tips, and walkthroughs for GoodGame Empire</p>
-    </header>
+        <h1>Guides</h1>
+        <p>Strategy guides, tips, and walkthroughs for GoodGame Empire</p>
+      </header>
 
-    <nav class="category-filter">
-      {categories.map((cat) => (
-        <button class="filter-btn" data-category={cat}>
-          {cat}
-        </button>
-      ))}
-    </nav>
+      <nav class="category-filter">
+        {
+          categories.map((cat) => (
+            <button class="filter-btn" data-category={cat}>
+              {cat}
+            </button>
+          ))
+        }
+      </nav>
 
-    <div class="card-grid" id="guides-grid">
-      {sortedGuides.map((guide) => (
-        <div data-category={guide.data.category}>
-          <Card
-            title={guide.data.title}
-            description={guide.data.description}
-            href={`/guides/${guide.id}/`}
-            category={guide.data.category}
-            image={guide.data.image}
-          />
-        </div>
-      ))}
+      <div class="card-grid" id="guides-grid">
+        {
+          sortedGuides.map((guide) => (
+            <div data-category={guide.data.category}>
+              <Card
+                title={guide.data.title}
+                description={guide.data.description}
+                href={`/guides/${guide.id}/`}
+                category={guide.data.category}
+                image={guide.data.image}
+              />
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>
@@ -70,7 +77,11 @@ const categories = ['all', ...new Set(guides.map((g) => g.data.category))];
   .content-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(29, 36, 60, 0.85), rgba(29, 36, 60, 0.92));
+    background: linear-gradient(
+      to bottom,
+      rgba(29, 36, 60, 0.85),
+      rgba(29, 36, 60, 0.92)
+    );
     z-index: 1;
   }
 
@@ -127,7 +138,10 @@ const categories = ['all', ...new Set(guides.map((g) => g.data.category))];
       btn.classList.add('active');
 
       cards.forEach((card) => {
-        if (category === 'all' || card.getAttribute('data-category') === category) {
+        if (
+          category === 'all' ||
+          card.getAttribute('data-category') === category
+        ) {
           (card as HTMLElement).style.display = 'block';
         } else {
           (card as HTMLElement).style.display = 'none';
@@ -137,11 +151,15 @@ const categories = ['all', ...new Set(guides.map((g) => g.data.category))];
   });
 
   // Set "all" as active by default
-  document.querySelector('.filter-btn[data-category="all"]')?.classList.add('active');
+  document
+    .querySelector('.filter-btn[data-category="all"]')
+    ?.classList.add('active');
 
   // Parallax
   const contentBg = document.querySelector('.content-bg') as HTMLElement;
-  const contentSection = document.querySelector('.content-section') as HTMLElement;
+  const contentSection = document.querySelector(
+    '.content-section'
+  ) as HTMLElement;
 
   function updateParallax() {
     if (contentBg && contentSection) {

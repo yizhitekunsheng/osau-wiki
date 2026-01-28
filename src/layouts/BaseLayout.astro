@@ -7,10 +7,13 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'OSAU Wiki - GoodGame Empire guides and strategies' } = Astro.props;
+const {
+  title,
+  description = 'OSAU Wiki - GoodGame Empire guides and strategies',
+} = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -27,10 +30,15 @@ const { title, description = 'OSAU Wiki - GoodGame Empire guides and strategies'
     <footer class="footer">
       <div class="container">
         <p>OSAU Wiki - One Sun Above Us</p>
-        <p class="footer-note">Fan-made wiki for GoodGame Empire. Not affiliated with Goodgame Studios.</p>
+        <p class="footer-note">
+          Fan-made wiki for GoodGame Empire. Not affiliated with Goodgame
+          Studios.
+        </p>
       </div>
     </footer>
-    <button class="scroll-top" id="scroll-top" aria-label="Scroll to top">&uarr;</button>
+    <button class="scroll-top" id="scroll-top" aria-label="Scroll to top"
+      >&uarr;</button
+    >
   </body>
 </html>
 
@@ -71,7 +79,11 @@ const { title, description = 'OSAU Wiki - GoodGame Empire guides and strategies'
     cursor: pointer;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.2s, visibility 0.2s, transform 0.2s, background 0.2s;
+    transition:
+      opacity 0.2s,
+      visibility 0.2s,
+      transform 0.2s,
+      background 0.2s;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 
@@ -109,23 +121,26 @@ const { title, description = 'OSAU Wiki - GoodGame Empire guides and strategies'
 
     if (cards.length === 0) return;
 
-    const cardObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const card = entry.target;
-          const allCards = Array.from(document.querySelectorAll('.card'));
-          const delay = allCards.indexOf(card) % 3 * 100;
-          setTimeout(() => {
-            card.classList.add('visible');
-          }, delay);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '50px 0px -50px 0px'
-    });
+    const cardObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const card = entry.target;
+            const allCards = Array.from(document.querySelectorAll('.card'));
+            const delay = (allCards.indexOf(card) % 3) * 100;
+            setTimeout(() => {
+              card.classList.add('visible');
+            }, delay);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '50px 0px -50px 0px',
+      }
+    );
 
-    cards.forEach(card => cardObserver.observe(card));
+    cards.forEach((card) => cardObserver.observe(card));
   }
 
   // Run when DOM is ready

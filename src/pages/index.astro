@@ -34,15 +34,17 @@ const recentGuides = guides
         <a href="/guides/" class="view-all">View all guides &rarr;</a>
       </div>
       <div class="card-grid">
-        {recentGuides.map((guide) => (
-          <Card
-            title={guide.data.title}
-            description={guide.data.description}
-            href={`/guides/${guide.id}/`}
-            category={guide.data.category}
-            image={guide.data.image}
-          />
-        ))}
+        {
+          recentGuides.map((guide) => (
+            <Card
+              title={guide.data.title}
+              description={guide.data.description}
+              href={`/guides/${guide.id}/`}
+              category={guide.data.category}
+              image={guide.data.image}
+            />
+          ))
+        }
       </div>
     </div>
   </section>
@@ -70,7 +72,11 @@ const recentGuides = guides
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(29, 36, 60, 0.4), rgba(29, 36, 60, 0.85));
+    background: linear-gradient(
+      to bottom,
+      rgba(29, 36, 60, 0.4),
+      rgba(29, 36, 60, 0.85)
+    );
     z-index: 1;
   }
 
@@ -125,7 +131,11 @@ const recentGuides = guides
   .content-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(29, 36, 60, 0.85), rgba(29, 36, 60, 0.92));
+    background: linear-gradient(
+      to bottom,
+      rgba(29, 36, 60, 0.85),
+      rgba(29, 36, 60, 0.92)
+    );
     z-index: 1;
   }
 
@@ -160,7 +170,9 @@ const recentGuides = guides
 
 <script>
   const contentBg = document.querySelector('.content-bg') as HTMLElement;
-  const contentSection = document.querySelector('.content-section') as HTMLElement;
+  const contentSection = document.querySelector(
+    '.content-section'
+  ) as HTMLElement;
 
   function updateParallax() {
     if (contentBg && contentSection) {

@@ -9,9 +9,13 @@ const navItems = [
   <div class="container header-inner">
     <a href="/" class="logo">OSAU Wiki</a>
     <nav class="nav">
-      {navItems.map((item) => (
-        <a href={item.href} class="nav-link">{item.label}</a>
-      ))}
+      {
+        navItems.map((item) => (
+          <a href={item.href} class="nav-link">
+            {item.label}
+          </a>
+        ))
+      }
     </nav>
   </div>
 </header>
