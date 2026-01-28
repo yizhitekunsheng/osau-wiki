@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Card from '../../components/Card.astro';
+import { getCollection } from 'astro:content';
+
+const guides = await getCollection('guides');
+const sortedGuides = guides.sort(
+  (a, b) => b.data.published.valueOf() - a.data.published.valueOf()
+);
+
+const categories = ['all', ...new Set(guides.map((g) => g.data.category))];
+---
+
+<BaseLayout title="Guides" description="Browse all GoodGame Empire guides and strategies">
+  <section class="content-section">
+    <img src="/osau-wiki/images/ggs/empire-banner.jpg" alt="" class="content-bg" />
+    <div class="content-overlay"></div>
+    <div class="container content-inner">
+      <header class="page-header">
+      <h1>Guides</h1>
+      <p>Strategy guides, tips, and walkthroughs for GoodGame Empire</p>
+    </header>
+
+    <nav class="category-filter">
+      {categories.map((cat) => (
+        <button class="filter-btn" data-category={cat}>
+          {cat}
+        </button>
+      ))}
+    </nav>
+
+    <div class="card-grid" id="guides-grid">
+      {sortedGuides.map((guide) => (
+        <div data-category={guide.data.category}>
+          <Card
+            title={guide.data.title}
+            description={guide.data.description}
+            href={`/osau-wiki/guides/${guide.id}/`}
+            category={guide.data.category}
+            image={guide.data.image}
+          />
+        </div>
+      ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .content-section {
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+  }
+
+  .content-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 130%;
+    top: 0;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    will-change: transform;
+  }
+
+  .content-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(29, 36, 60, 0.85), rgba(29, 36, 60, 0.92));
+    z-index: 1;
+  }
+
+  .content-inner {
+    position: relative;
+    z-index: 2;
+    padding: 2rem 0;
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .page-header p {
+    color: var(--color-text-muted);
+  }
+
+  .category-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  .filter-btn {
+    padding: 0.5rem 1rem;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    color: var(--color-text);
+    cursor: pointer;
+    text-transform: capitalize;
+    transition: all var(--transition);
+  }
+
+  .filter-btn:hover,
+  .filter-btn.active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('#guides-grid > div');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const category = btn.getAttribute('data-category');
+
+      buttons.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      cards.forEach((card) => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          (card as HTMLElement).style.display = 'block';
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Set "all" as active by default
+  document.querySelector('.filter-btn[data-category="all"]')?.classList.add('active');
+
+  // Parallax
+  const contentBg = document.querySelector('.content-bg') as HTMLElement;
+  const contentSection = document.querySelector('.content-section') as HTMLElement;
+
+  function updateParallax() {
+    if (contentBg && contentSection) {
+      const scrollY = window.scrollY;
+      contentBg.style.transform = `translateY(${scrollY * 0.3}px)`;
+    }
+  }
+
+  updateParallax();
+  window.addEventListener('scroll', updateParallax, { passive: true });
+</script>

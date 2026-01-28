@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from '../components/Card.astro';
+import { getCollection } from 'astro:content';
+
+const guides = await getCollection('guides');
+const recentGuides = guides
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
+  .slice(0, 6);
+---
+
+<BaseLayout title="Home">
+  <section class="hero">
+    <img src="/osau-wiki/images/ggs/winter-2023.jpg" alt="" class="hero-bg" />
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>OSAU Wiki</h1>
+      <p class="hero-tagline">One Sun Above Us</p>
+      <p class="hero-description">
+        Strategy guides, tips, and resources for GoodGame Empire
+      </p>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <img src="/osau-wiki/images/ggs/empire-banner.jpg" alt="" class="content-bg" />
+    <div class="content-overlay"></div>
+    <div class="container section">
+      <div class="section-header">
+        <h2>Latest Guides</h2>
+        <a href="/osau-wiki/guides/" class="view-all">View all guides &rarr;</a>
+      </div>
+      <div class="card-grid">
+        {recentGuides.map((guide) => (
+          <Card
+            title={guide.data.title}
+            description={guide.data.description}
+            href={`/osau-wiki/guides/${guide.id}/`}
+            category={guide.data.category}
+            image={guide.data.image}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    text-align: center;
+    padding: 5rem 0;
+    overflow: hidden;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(29, 36, 60, 0.4), rgba(29, 36, 60, 0.85));
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .hero-tagline {
+    font-size: 1.35rem;
+    color: var(--color-accent);
+    margin: 0 0 1rem;
+    font-style: italic;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .hero-description {
+    color: var(--color-text);
+    max-width: 500px;
+    margin: 0 auto;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .content-section {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .content-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 130%;
+    top: 0;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    will-change: transform;
+  }
+
+  .content-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(29, 36, 60, 0.85), rgba(29, 36, 60, 0.92));
+    z-index: 1;
+  }
+
+  .section {
+    position: relative;
+    z-index: 2;
+    padding: 3rem 0 2rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  .section-header h2 {
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .view-all {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    transition: color var(--transition);
+  }
+
+  .view-all:hover {
+    color: var(--color-accent);
+  }
+</style>
+
+<script>
+  const contentBg = document.querySelector('.content-bg') as HTMLElement;
+  const contentSection = document.querySelector('.content-section') as HTMLElement;
+
+  function updateParallax() {
+    if (contentBg && contentSection) {
+      const sectionTop = contentSection.offsetTop;
+      const relativeScroll = window.scrollY - sectionTop;
+      if (relativeScroll > -window.innerHeight) {
+        contentBg.style.transform = `translateY(${relativeScroll * 0.3}px)`;
+      }
+    }
+  }
+
+  // Run once on load to set initial position
+  updateParallax();
+
+  window.addEventListener('scroll', updateParallax, { passive: true });
+</script>
